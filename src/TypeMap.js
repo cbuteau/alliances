@@ -1,6 +1,10 @@
 
 const iter = require('./Iterator');
 
+let TYPECODES = require('./TypeCodes');
+
+let getTypeCode = require('./getTypeCode');
+
 function TypeMap(object) {
   this.object = object;
   this._map = {}
@@ -14,10 +18,10 @@ TypeMap.prototype = {
       let entry = that._map[propName] = {
         code: typeCode
       };
-      if (typeCode === OBJECT) {
         buildChildren(entry);
+        if (typeCode === TYPECODES.OBJECT) {
       }
-      if (typeCode === FUNCTION) {
+      if (typeCode === TYPECODES.FUNCTION) {
         entry.paramCount = prop.length;
       }
     });

@@ -1,4 +1,6 @@
 
+
+
 function InterfaceChecker(object, interface) {
   this.options = {
     object: object,
