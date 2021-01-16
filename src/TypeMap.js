@@ -11,8 +11,15 @@ TypeMap.prototype = {
   _work: function() {
     let that = this;
     iter.object(this.object, function(propName, prop, typeCode) {
-      that._map[propName] = typeCode;
-      
+      let entry = that._map[propName] = {
+        code: typeCode
+      };
+      if (typeCode === OBJECT) {
+        buildChildren(entry);
+      }
+      if (typeCode === FUNCTION) {
+        entry.paramCount = prop.length;
+      }
     });
     let keys = Object.keys(this.object);
     for (let i = 0; i < keys.length; i++) {
@@ -20,3 +27,5 @@ TypeMap.prototype = {
     }
   }
 }
+
+module.exports = TypeMap;
