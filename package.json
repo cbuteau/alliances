@@ -1,0 +1,26 @@
+{
+  "name": "alliances",
+  "version": "1.0.0",
+  "description": "An interface check for javascript.",
+  "homepage": "https://github.com/cbuteau/alliances#readme",
+  "bugs": {
+    "url": "https://github.com/cbuteau/alliances/issues"
+  },
+  "license": "MIT",
+  "author": "Christopher W Buteau <cbuteau@gmail.com>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbuteau/alliances.git"
+  },
+  "scripts": {
+    "test": ".\\node_modules\\.bin\\karma start",
+    "testc": ".\\node_modules\\.bin\\karma start --single-run"
+  },
+  "dependencies": {
+    "karma": "6.0.0",
+    "karma-jasmine": "4.0.1",
+    "karma-chrome-launcher": "3.1.0"
+  },
+  "devDependencies": {}
+}
