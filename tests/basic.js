@@ -1,5 +1,5 @@
 
-let alliances = require('./');
+//let alliances = require('./');
 
 function SomeObject() {}
 

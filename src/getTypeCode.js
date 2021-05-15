@@ -59,4 +59,4 @@ function getTypeCode(value) {
   return TYPECODES.UNMAPPED;
 }
 
-modeul.exports = getTypeCode;
+module.exports = getTypeCode;

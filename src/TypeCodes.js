@@ -13,4 +13,4 @@ const TYPECODES = {
   REGEX: 10
 }
 
-module.expors = TYPECODES;
+module.exports = TYPECODES;

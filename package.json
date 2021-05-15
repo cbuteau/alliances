@@ -15,12 +15,16 @@
   },
   "scripts": {
     "test": ".\\node_modules\\.bin\\karma start",
-    "testc": ".\\node_modules\\.bin\\karma start --single-run"
+    "testc": ".\\node_modules\\.bin\\karma start --single-run",
+    "bundle": ".\\node_modules\\.bin\\browserify src\\getTypeCode.js src\\InterfaceChecker.js src\\Iterator.js src\\TypeCodes.js src\\TypeMap.js index.js -o out\\bundle.js"
   },
   "dependencies": {
+    "browserify": "17.0.0",
     "karma": "6.0.0",
-    "karma-jasmine": "4.0.1",
-    "karma-chrome-launcher": "3.1.0"
+    "karma-chrome-launcher": "3.1.0",
+    "karma-jasmine": "4.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jasmine-node": "3.0.0"
+  }
 }

@@ -9,7 +9,7 @@ function InterfaceChecker(object, interface) {
   this._work();
 }
 
-InterfaceChecker.prototype {
+InterfaceChecker.prototype = {
   _work: function() {
 
   }
@@ -18,7 +18,7 @@ InterfaceChecker.prototype {
 Object.defineProperties(InterfaceChecker.prototype, {
   isValid: {
     get: function() {
-      retunr this._isValid;
+      return this._isValid;
     }
   }
 })
