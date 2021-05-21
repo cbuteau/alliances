@@ -16,7 +16,7 @@
   "scripts": {
     "test": ".\\node_modules\\.bin\\karma start",
     "testc": ".\\node_modules\\.bin\\karma start --single-run",
-    "bundle": ".\\node_modules\\.bin\\browserify src\\getTypeCode.js src\\InterfaceChecker.js src\\Iterator.js src\\TypeCodes.js src\\TypeMap.js index.js -o out\\bundle.js"
+    "bundle": ".\\node_modules\\.bin\\browserify src\\getTypeCode.js src\\InterfaceChecker.js src\\Iterator.js src\\TypeCodes.js src\\TypeMap.js index.js  --standalone alliances -o out\\bundle.js"
   },
   "dependencies": {
     "browserify": "17.0.0",
