@@ -1,4 +1,7 @@
 
+let getTypeCode = require('./getTypeCode');
+
+
 function iterateArray(array, callback) {
   let len = array.length;
   for (let i = 0; i < len; i++) {
@@ -10,10 +13,10 @@ function iterateArray(array, callback) {
 
 module.exports = {
   object: function(object, callback) {
-    let keys = Object.keys(this.object);
+    let keys = Object.keys(object);
     let that = this;
     iterateArray(keys, function(propName) {
-      let prop = that.object[propName];
+      let prop = object[propName];
       let code = getTypeCode(prop);
       callback(propName, prop, code);
     });

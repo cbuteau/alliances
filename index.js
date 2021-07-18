@@ -1,38 +1,34 @@
 
+const TypeMap = require('./src/TypeMap');
+
+
 const INTERFACE_OPTIONS = {
   excludePrivates: false
 };
 
-var instance = null;
 
 function Alliances() {
-  if (!instance) {
-    instance = new Alliances();
-  }
-  return instance;
 }
 
 Alliances.prototype = {
-  interface: function(object, interface, options) {
+  interface: function(object, interfaceDef, options) {
     let actual = Object.assign(INTERFACE_OPTIONS, options)
-    let map = TypeMap(object);
-    let int = new TypeMap(interface);
-
+    let map = new TypeMap(object);
+    let int = new TypeMap(interfaceDef);
   },
+
   data: function(dataobject, format) {
 
   }
 };
 
+let instance;
+if (!instance) {
+  instance = new Alliances();
+}
 
-module.exports = {
-  interface: function(object, interface, options) {
-    let actual = Object.assign(INTERFACE_OPTIONS, options)
-    let map = TypeMap(object);
-    let int = new TypeMap(interface);
+if (window) {
+  window.alliances = instance;
+}
 
-  },
-  data: function(dataobject, format) {
-
-  }
-};
+module.exports = instance;

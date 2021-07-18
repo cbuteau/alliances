@@ -1,5 +1,6 @@
-
+;
 //let alliances = require('./');
+
 
 function SomeObject() {}
 

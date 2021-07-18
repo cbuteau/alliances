@@ -1,213 +1,96 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.alliances = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-const INTERFACE_OPTIONS = {
-  excludePrivates: false
-};
+/***/ "./index.js":
+/*!******************!*\
+  !*** ./index.js ***!
+  \******************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-var instance = null;
+eval("\r\nconst TypeMap = __webpack_require__(/*! ./src/TypeMap */ \"./src/TypeMap.js\");\r\n\r\n\r\nconst INTERFACE_OPTIONS = {\r\n  excludePrivates: false\r\n};\r\n\r\n\r\nfunction Alliances() {\r\n}\r\n\r\nAlliances.prototype = {\r\n  interface: function(object, interfaceDef, options) {\r\n    let actual = Object.assign(INTERFACE_OPTIONS, options)\r\n    let map = new TypeMap(object);\r\n    let int = new TypeMap(interfaceDef);\r\n  },\r\n\r\n  data: function(dataobject, format) {\r\n\r\n  }\r\n};\r\n\r\nlet instance;\r\nif (!instance) {\r\n  instance = new Alliances();\r\n}\r\n\r\nif (window) {\r\n  window.alliances = instance;\r\n}\r\n\r\nmodule.exports = instance;\r\n\n\n//# sourceURL=webpack://alliances/./index.js?");
 
-function Alliances() {
-  if (!instance) {
-    instance = new Alliances();
-  }
-  return instance;
-}
+/***/ }),
 
-Alliances.prototype = {
-  interface: function(object, interface, options) {
-    let actual = Object.assign(INTERFACE_OPTIONS, options)
-    let map = TypeMap(object);
-    let int = new TypeMap(interface);
+/***/ "./src/Iterator.js":
+/*!*************************!*\
+  !*** ./src/Iterator.js ***!
+  \*************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-  },
-  data: function(dataobject, format) {
+eval("\r\nlet getTypeCode = __webpack_require__(/*! ./getTypeCode */ \"./src/getTypeCode.js\");\r\n\r\n\r\nfunction iterateArray(array, callback) {\r\n  let len = array.length;\r\n  for (let i = 0; i < len; i++) {\r\n    let cur = array[i];\r\n    callback(cur, i, array);\r\n  }\r\n}\r\n\r\n\r\nmodule.exports = {\r\n  object: function(object, callback) {\r\n    let keys = Object.keys(object);\r\n    let that = this;\r\n    iterateArray(keys, function(propName) {\r\n      let prop = object[propName];\r\n      let code = getTypeCode(prop);\r\n      callback(propName, prop, code);\r\n    });\r\n  },\r\n  array: function(array, callback) {\r\n    iterateArray(array, callback);\r\n  }\r\n};\r\n\n\n//# sourceURL=webpack://alliances/./src/Iterator.js?");
 
-  }
-};
+/***/ }),
 
+/***/ "./src/TypeCodes.js":
+/*!**************************!*\
+  !*** ./src/TypeCodes.js ***!
+  \**************************/
+/***/ ((module) => {
 
-module.exports = {
-  interface: function(object, interface, options) {
-    let actual = Object.assign(INTERFACE_OPTIONS, options)
-    let map = TypeMap(object);
-    let int = new TypeMap(interface);
+eval("\r\nconst TYPECODES = {\r\n  BOOLEAN: 0,\r\n  NUMBER: 1,\r\n  STRING: 2,\r\n  FUNCTION: 3,\r\n  OBJECT: 4,\r\n  UNDEFINED: 5,\r\n  NULL: 6,\r\n  DATE: 7,\r\n  ARRAY: 8,\r\n  UNMAPPED: 9,\r\n  REGEX: 10\r\n}\r\n\r\nmodule.exports = TYPECODES;\r\n\n\n//# sourceURL=webpack://alliances/./src/TypeCodes.js?");
 
-  },
-  data: function(dataobject, format) {
+/***/ }),
 
-  }
-};
+/***/ "./src/TypeMap.js":
+/*!************************!*\
+  !*** ./src/TypeMap.js ***!
+  \************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-},{}],2:[function(require,module,exports){
+eval("\r\nconst iter = __webpack_require__(/*! ./Iterator */ \"./src/Iterator.js\");\r\n\r\nconst TYPECODES = __webpack_require__(/*! ./TypeCodes */ \"./src/TypeCodes.js\");\r\n\r\nlet getTypeCode = __webpack_require__(/*! ./getTypeCode */ \"./src/getTypeCode.js\");\r\n\r\nlet Iterator = __webpack_require__(/*! ./Iterator */ \"./src/Iterator.js\");\r\n\r\nfunction processProp(map, propName, typeCode, propData) {\r\n  let entry = map[propName] = {\r\n    code: typeCode\r\n  };\r\n  switch (typeCode) {\r\n    case TYPECODES.FUNCTION:\r\n      entry.paramCount = propData.length;\r\n      break;\r\n    case TYPECODES.OBJECT:\r\n      // recurse on chdilren...\r\n      break;\r\n  }\r\n}\r\n\r\nfunction TypeMap(object) {\r\n  this.object = object;\r\n  this._map = {}\r\n  this._work();\r\n}\r\n\r\nTypeMap.prototype = {\r\n  _work: function() {\r\n    let that = this;\r\n    Iterator.object(this.object, function(propName, prop, typeCode) {\r\n      processProp(that._map, propName, typeCode, prop);\r\n    });\r\n    Iterator.object(Object.getPrototypeOf(this.object), function(propName, prop, typeCode) {\r\n      processProp(that._map, propName, typeCode, prop);\r\n    })\r\n  }\r\n}\r\n\r\nmodule.exports = TypeMap;\r\n\n\n//# sourceURL=webpack://alliances/./src/TypeMap.js?");
 
+/***/ }),
 
+/***/ "./src/getTypeCode.js":
+/*!****************************!*\
+  !*** ./src/getTypeCode.js ***!
+  \****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-function InterfaceChecker(object, interface) {
-  this.options = {
-    object: object,
-    interface: interface
-  };
-  this._work();
-}
+eval("\r\nlet TYPECODES = __webpack_require__(/*! ./TypeCodes */ \"./src/TypeCodes.js\");\r\n\r\nfunction getTypeCode(value) {\r\n  var result;\r\n  // Undefined\r\n  if (value === undefined) {\r\n    //result = TYPECODES.UNDEFINED;\r\n    //result.toString = debugStringForTypeCode;\r\n    return TYPECODES.UNDEFINED;\r\n  }\r\n  // Null\r\n  if (value === null) {\r\n    return TYPECODES.NULL;\r\n  }\r\n  // Boolean\r\n  if ((value === true) || (value === false)) {\r\n    return TYPECODES.BOOLEAN;\r\n  }\r\n  // Function\r\n  if (value.apply && value.call && value.bind) {\r\n    return TYPECODES.FUNCTION;\r\n  }\r\n  // Date\r\n  if (value.getDay && value.getYear && value.getMonth && value.getHours && value.getMinutes && value.getSeconds) {\r\n    return TYPECODES.DATE;\r\n  }\r\n  // Number\r\n  if (value.toString && value.valueOf && value.toPrecision) {\r\n    return TYPECODES.NUMBER;\r\n  }\r\n  // string\r\n  if (value.trim && value.indexOf && value.toLowerCase && value.toUpperCase) {\r\n    return TYPECODES.STRING;\r\n  }\r\n  // ARRAY\r\n  if (value.map && value.indexOf && value.push && value.slice) {\r\n    // if (value.copyWithin && value.entries && value.find) {\r\n    //   // typedarray\r\n    //   // we migth have to swicth to instanceof here.\r\n    //   if (value instanceof Array) {\r\n    //     //console.log('Vanilla Array');\r\n    //   } else if (value instanceof TypedArray) {\r\n    //     //console.log('typed array');\r\n    //   }\r\n    // }\r\n    return TYPECODES.ARRAY;\r\n  }\r\n\r\n  if (value.test && value.exec) {\r\n    return TYPECODES.REGEX;\r\n  }\r\n  // OBJECT\r\n  if (value.isPrototypeOf && value.hasOwnProperty && value.toString) {\r\n    return TYPECODES.OBJECT;\r\n  }\r\n\r\n  /* istanbul ignore next */\r\n  return TYPECODES.UNMAPPED;\r\n}\r\n\r\nmodule.exports = getTypeCode;\r\n\n\n//# sourceURL=webpack://alliances/./src/getTypeCode.js?");
 
-InterfaceChecker.prototype = {
-  _work: function() {
+/***/ })
 
-  }
-};
-
-Object.defineProperties(InterfaceChecker.prototype, {
-  isValid: {
-    get: function() {
-      return this._isValid;
-    }
-  }
-})
-
-},{}],3:[function(require,module,exports){
-
-function iterateArray(array, callback) {
-  let len = array.length;
-  for (let i = 0; i < len; i++) {
-    let cur = array[i];
-    callback(cur, i, array);
-  }
-}
-
-
-module.exports = {
-  object: function(object, callback) {
-    let keys = Object.keys(this.object);
-    let that = this;
-    iterateArray(keys, function(propName) {
-      let prop = that.object[propName];
-      let code = getTypeCode(prop);
-      callback(propName, prop, code);
-    });
-  },
-  array: function(array, callback) {
-    iterateArray(array, callback);
-  }
-};
-
-},{}],4:[function(require,module,exports){
-
-const TYPECODES = {
-  BOOLEAN: 0,
-  NUMBER: 1,
-  STRING: 2,
-  FUNCTION: 3,
-  OBJECT: 4,
-  UNDEFINED: 5,
-  NULL: 6,
-  DATE: 7,
-  ARRAY: 8,
-  UNMAPPED: 9,
-  REGEX: 10
-}
-
-module.exports = TYPECODES;
-
-},{}],5:[function(require,module,exports){
-
-const iter = require('./Iterator');
-
-let TYPECODES = require('./TypeCodes');
-
-let getTypeCode = require('./getTypeCode');
-
-function TypeMap(object) {
-  this.object = object;
-  this._map = {}
-  this._work();
-}
-
-TypeMap.prototype = {
-  _work: function() {
-    let that = this;
-    iter.object(this.object, function(propName, prop, typeCode) {
-      let entry = that._map[propName] = {
-        code: typeCode
-      };
-        buildChildren(entry);
-        if (typeCode === TYPECODES.OBJECT) {
-      }
-      if (typeCode === TYPECODES.FUNCTION) {
-        entry.paramCount = prop.length;
-      }
-    });
-    let keys = Object.keys(this.object);
-    for (let i = 0; i < keys.length; i++) {
-
-    }
-  }
-}
-
-module.exports = TypeMap;
-
-},{"./Iterator":3,"./TypeCodes":4,"./getTypeCode":6}],6:[function(require,module,exports){
-
-let TYPECODES = require('./TypeCodes');
-
-function getTypeCode(value) {
-  var result;
-  // Undefined
-  if (value === undefined) {
-    //result = TYPECODES.UNDEFINED;
-    //result.toString = debugStringForTypeCode;
-    return TYPECODES.UNDEFINED;
-  }
-  // Null
-  if (value === null) {
-    return TYPECODES.NULL;
-  }
-  // Boolean
-  if ((value === true) || (value === false)) {
-    return TYPECODES.BOOLEAN;
-  }
-  // Function
-  if (value.apply && value.call && value.bind) {
-    return TYPECODES.FUNCTION;
-  }
-  // Date
-  if (value.getDay && value.getYear && value.getMonth && value.getHours && value.getMinutes && value.getSeconds) {
-    return TYPECODES.DATE;
-  }
-  // Number
-  if (value.toString && value.valueOf && value.toPrecision) {
-    return TYPECODES.NUMBER;
-  }
-  // string
-  if (value.trim && value.indexOf && value.toLowerCase && value.toUpperCase) {
-    return TYPECODES.STRING;
-  }
-  // ARRAY
-  if (value.map && value.indexOf && value.push && value.slice) {
-    // if (value.copyWithin && value.entries && value.find) {
-    //   // typedarray
-    //   // we migth have to swicth to instanceof here.
-    //   if (value instanceof Array) {
-    //     //console.log('Vanilla Array');
-    //   } else if (value instanceof TypedArray) {
-    //     //console.log('typed array');
-    //   }
-    // }
-    return TYPECODES.ARRAY;
-  }
-
-  if (value.test && value.exec) {
-    return TYPECODES.REGEX;
-  }
-  // OBJECT
-  if (value.isPrototypeOf && value.hasOwnProperty && value.toString) {
-    return TYPECODES.OBJECT;
-  }
-
-  /* istanbul ignore next */
-  return TYPECODES.UNMAPPED;
-}
-
-module.exports = getTypeCode;
-
-},{"./TypeCodes":4}]},{},[6,2,3,4,5,1])(6)
-});
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./index.js");
+/******/ 	
+/******/ })()
+;

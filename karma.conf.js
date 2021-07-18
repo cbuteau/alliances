@@ -56,7 +56,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['ChromeExperiment'],
 
 
     // Continuous Integration mode
@@ -65,6 +65,43 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    customLaunchers: {
+      FirefoxDynamicImport: {
+          base: 'Firefox',
+          prefs: {
+              'javascript.options.dynamicImport': true
+          }
+      },
+      ChromeExperiment: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox', //default karma-esm configuration
+          '--disable-setuid-sandbox', //default karma-esm configuration
+          '--enable-experimental-web-platform-features', // necessary when using importMap option
+          '--disable-web-security', '--disable-site-isolation-trials' //trying these we saw mentioned.
+        ]
+      },
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox', //default karma-esm configuration
+          '--disable-setuid-sandbox', //default karma-esm configuration
+          '--enable-experimental-web-platform-features', // necessary when using importMap option
+          '--disable-gpu', // why not try it,
+          '--js-flags="--max_old_space_size=4096"' // mentioned in forums.
+        ]
+      },
+      ChromeHeadlessNoSandboxDebug: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox', //default karma-esm configuration
+          '--disable-setuid-sandbox', //default karma-esm configuration
+          '--enable-experimental-web-platform-features', // necessary when using importMap option
+          '--remote-debugging-port=9222' ///for debugging...
+        ]
+      },
+    }
   })
 }
