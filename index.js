@@ -15,6 +15,7 @@ Alliances.prototype = {
     let actual = Object.assign(INTERFACE_OPTIONS, options)
     let map = new TypeMap(object);
     let int = new TypeMap(interfaceDef);
+    return map.compare(int);
   },
 
   data: function(dataobject, format) {
