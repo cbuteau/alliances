@@ -55,6 +55,10 @@ TypeMap.prototype = {
                 } else {
                   resultArray.push(false);
                 }
+                break;
+              default:
+                resultArray.push(true);
+                break;
            } 
         } else {
           resultArray.push(false);

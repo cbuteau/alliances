@@ -23,6 +23,24 @@ SomeObject.prototype = {
   }
 };
 
+function SomeObjectWithMore() {
+  this.trap = true;
+  this.counter = 666;
+}
+
+SomeObjectWithMore.prototype = {
+  setup: function(options) {
+
+  },
+  shutdown: function(force) {
+
+  }
+};
+
+function SomeObjectWithArray() {
+  this._collection = [1, 2, 3]
+}
+
 
 let InterfaceSetupBasic = {
   setup: function() {},
@@ -34,19 +52,40 @@ let InterfaceSetup = {
   shutdown: function(force) {},
 }
 
+let InterfaceWithMore = {
+  trap: false,
+  counter: 0,
+  setup: function(whoknows) {},
+  shutdown: function(parameOne) {}
+}
 
-
+let InterfaceWithArray = {
+  _collection: []
+}
 
 describe('Easy tests...', function() {
 
-  it ('interface', function() {
-    let test = new SomeObjectBasic();
-    expect(alliances.interface(test, InterfaceSetupBasic)).toBe(true);
-  });
+  describe('success', function() {
+    it ('interface functions', function() {
+      let test = new SomeObjectBasic();
+      expect(alliances.interface(test, InterfaceSetupBasic)).toBe(true);
+    });
+  
+    it ('interface functions with params', function() {
+      let test = new SomeObject();
+      expect(alliances.interface(test, InterfaceSetup)).toBe(true);
+    });
+  
+    it ('interface functions and some props', function() {
+      let test = new SomeObjectWithMore();
+      expect(alliances.interface(test, InterfaceWithMore)).toBe(true);
+    });
 
-  it ('interface', function() {
-    let test = new SomeObject();
-    expect(alliances.interface(test, InterfaceSetup)).toBe(true);
+    it ('interface functions and some props', function() {
+      let test = new SomeObjectWithArray();
+      expect(alliances.interface(test, InterfaceWithArray)).toBe(true);
+    });
+
   });
 
 
