@@ -86,6 +86,21 @@ describe('Easy tests...', function() {
       expect(alliances.interface(test, InterfaceWithArray)).toBe(true);
     });
 
+    describe('failures', function() {
+      it ('woops', function() {
+        let test = {};
+        expect(alliances.interface(test, InterfaceSetupBasic)).toBe(false);
+      });
+
+      it ('woops again', function() {
+        let test = {
+          setup: function() {},
+          shutdown: function() {}
+        };
+        expect(alliances.interface(test, InterfaceSetupBasic)).toBe(false);
+      });
+    })
+
   });
 
 

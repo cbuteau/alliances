@@ -7,6 +7,26 @@ let getTypeCode = require('./getTypeCode');
 
 let Iterator = require('./Iterator');
 
+function Recorder() {
+  this._list = [];
+}
+
+Recorder.prototype = {
+  nope: function() {
+    this._list.push(false);
+  },
+
+  yep: function() {
+    this._list.push(true);
+  },
+
+  getYepCount: function() {
+    return this._list.filter(function(result) {
+      return result === true;
+    }).length;
+  }
+}
+
 function processProp(map, propName, typeCode, propData) {
   let entry = map[propName] = {
     code: typeCode
@@ -44,6 +64,7 @@ TypeMap.prototype = {
     let mapCount = Object.keys(ourMap).length;
     let result = false;
     let resultArray = [];
+    let record = new Recorder();
     Iterator.object(ourMap, function(propName, propData, tc) {
       let otherPropData = otherMap[propName];
       if (otherPropData) {
@@ -51,23 +72,35 @@ TypeMap.prototype = {
            switch (propData.code) {
              case TYPECODES.FUNCTION:
                 if (propData.paramCount === otherPropData.paramCount) {
+                  record.nope();
                   resultArray.push(true)
                 } else {
+                  record.yep();
                   resultArray.push(false);
                 }
                 break;
               default:
+                record.nope();
                 resultArray.push(true);
                 break;
            } 
         } else {
+          record.nope();
           resultArray.push(false);
         }
+      } else {
+        record.nope();
+        resultArray.push(false);
       }
     });
-    return resultArray.filter(function(result) {
-      return result === true;
-    }).length === mapCount;
+    return record.getYepCount() === mapCount;
+    // let filterIt = resultArray.filter(function(result) {
+    //   return result === true;
+    // });
+    // return filterIt.length === mapCount;
+    // return resultArray.filter(function(result) {
+    //   return result === true;
+    // }).length === mapCount;
   }
 }
 
