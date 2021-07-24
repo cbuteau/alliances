@@ -1,0 +1,60 @@
+version: 2.1
+
+# orbs:
+#   win: circleci/windows@2.2.0
+orbs:
+  browser-tools: circleci/browser-tools@1.0.1
+
+jobs:
+  build:
+    # executor:
+    #   name: win/default
+    #   shell: powershell.exe
+    working_directory: ~/gitsrc
+    docker:
+      - image: circleci/node:jessie-browsers
+    environment:
+      JVM_OPTS: -Xmx3200m
+      NODE_ENV: false
+      COVERALLS_REPO_TOKEN: HICc0XwxeBruKFxp0BdCKfGLIHGGTYQhg
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools
+      # - run: #STABLE
+      #     name: Install Chromedriver latest version
+      #     command: |
+      #       sudo apt-get update
+      #       sudo apt-get install lsb-release libappindicator3-1
+      #       curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      #       sudo dpkg -i google-chrome.deb
+      #       sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
+      #       rm google-chrome.deb
+      - run:
+          name: setup-for-karma
+          command: npm set prefix=/home/circleci/npm && echo 'export PATH=$HOME/circleci/npm/bin:$PATH' >> /home/circleci/.bashrc
+          # shell: bash.exe
+      - run:
+          name: globals karma-cli, jasmine, jspm
+          command: npm install -g karma-cli jasmine jspm
+          # shell: cmd.exe
+      - restore_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: npm install
+          command: npm install
+      - run:
+          name: generate bundle
+          command: npx webpack --mode=production
+           # shell: cmd.exe
+      - run:
+          name: run test
+          command: npm run testc
+          # shell: cmd.exe
+      - store_test_results:
+          path: results
+      # - store_artifacts:
+      #     path: coverage
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - .node_modules

@@ -5,6 +5,17 @@ An interface check for javascript.
 
 I just wanted to build an interface check for other people to use.
 
+# Badges
+
+<!-- ### Coveralls
+
+[![Coverage Status](https://coveralls.io/repos/github/cbuteau/typetools/badge.svg)](https://coveralls.io/github/cbuteau/typetools) -->
+
+### Circle CI Build
+
+[![CircleCI](https://circleci.com/gh/cbuteau/alliances.svg?style=svg)](https://circleci.com/gh/cbuteau/alliances)
+
+
 
 ## Exposed methods
 
