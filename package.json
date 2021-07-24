@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": ".\\node_modules\\.bin\\karma start",
-    "testc": ".\\node_modules\\.bin\\karma start --single-run",
+    "testc": ".\\node_modules\\.bin\\karma start --single-run  --browsers ChromeHeadlessNoSandbox",
     "testcb": " npx webpack --mode=development  && .\\node_modules\\.bin\\karma start --single-run",
     "bundle_old": ".\\node_modules\\.bin\\browserify src\\getTypeCode.js src\\InterfaceChecker.js src\\Iterator.js src\\TypeCodes.js src\\TypeMap.js index.js  --standalone alliances -o out\\bundle.js",
     "bundle_brwoserfy_sux": ".\\node_modules\\.bin\\browserify index.js -o out\\bundle.js",
