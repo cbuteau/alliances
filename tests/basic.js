@@ -41,6 +41,25 @@ function SomeObjectWithArray() {
   this._collection = [1, 2, 3]
 }
 
+function SomeObjectWithObjects() {}
+
+SomeObjectWithObjects.prototype = {
+  sub: {
+    one: 0,
+    two: false,
+    three: new Date('12/25/0001')
+  }
+}
+
+let InterfaceWithObjects = {
+  sub: {
+    one: 666,
+    two: true,
+    three: new Date('3/14/2015')    
+  }
+}
+
+
 
 let InterfaceSetupBasic = {
   setup: function() {},
@@ -86,6 +105,12 @@ describe('Easy tests...', function() {
       expect(alliances.interface(test, InterfaceWithArray)).toBe(true);
     });
 
+    it ('interface with subobject', function() {
+      let test = new SomeObjectWithObjects();
+      expect(alliances.interface(test, InterfaceWithObjects)).toBe(true);
+    });
+
+
     describe('failures', function() {
       it ('woops', function() {
         let test = {};
@@ -97,7 +122,7 @@ describe('Easy tests...', function() {
           setup: function() {},
           shutdown: function() {}
         };
-        expect(alliances.interface(test, InterfaceSetupBasic)).toBe(false);
+        expect(alliances.interface(test, InterfaceSetup)).toBe(false);
       });
     })
 

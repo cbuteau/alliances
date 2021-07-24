@@ -37,6 +37,7 @@ function processProp(map, propName, typeCode, propData) {
       break;
     case TYPECODES.OBJECT:
       // recurse on chdilren...
+      entry.internalTypeMap = new TypeMap(propData);
       break;
   }
 }
@@ -72,35 +73,30 @@ TypeMap.prototype = {
            switch (propData.code) {
              case TYPECODES.FUNCTION:
                 if (propData.paramCount === otherPropData.paramCount) {
-                  record.nope();
-                  resultArray.push(true)
-                } else {
                   record.yep();
-                  resultArray.push(false);
+                } else {
+                  record.nope();
+                }
+                break;
+              case TYPECODES.OBJECT:
+                if (propData.internalTypeMap.compare(otherPropData.internalTypeMap)) {
+                  record.yep();
+                } else {
+                  record.nope();
                 }
                 break;
               default:
-                record.nope();
-                resultArray.push(true);
+                record.yep();
                 break;
            } 
         } else {
           record.nope();
-          resultArray.push(false);
         }
       } else {
         record.nope();
-        resultArray.push(false);
       }
     });
     return record.getYepCount() === mapCount;
-    // let filterIt = resultArray.filter(function(result) {
-    //   return result === true;
-    // });
-    // return filterIt.length === mapCount;
-    // return resultArray.filter(function(result) {
-    //   return result === true;
-    // }).length === mapCount;
   }
 }
 
